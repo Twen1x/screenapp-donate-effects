@@ -1,0 +1,201 @@
+<Window x:Class="ScreenApp.UI.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ScreenApp — настройки" Height="640" Width="860"
+        WindowStartupLocation="CenterScreen"
+        Background="#1E1830" Foreground="#EEE"
+        FontFamily="Segoe UI" FontSize="13">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#EEE"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="Margin" Value="0,2"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="0,4,8,4"/>
+            <Setter Property="Background" Value="#6A3CE0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#3A2F55"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="8,6"/>
+            <Setter Property="BorderBrush" Value="#241C3A"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel Margin="12">
+        <!-- Нижняя строка состояния -->
+        <Border DockPanel.Dock="Bottom" Background="#2A2042" CornerRadius="6" Padding="10,6" Margin="0,10,0,0">
+            <DockPanel>
+                <Ellipse x:Name="StatusDot" Width="12" Height="12" Fill="#888" Margin="0,0,8,0"
+                         VerticalAlignment="Center"/>
+                <TextBlock x:Name="StatusText" Text="Слушатель остановлен" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="SupportButton" Content="💜 Поддержать"
+                            Click="OnSupportClick" Background="#3A2F55"/>
+                    <Button x:Name="DiagnosticsButton" Content="Диагностика и помощь"
+                            Click="OnDiagnosticsClick" Background="#3A2F55"/>
+                    <Button x:Name="StartButton" Content="Запустить слушатель" Click="OnStartClick"/>
+                    <Button x:Name="StopButton" Content="Остановить" Click="OnStopClick"
+                            Background="#444"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <TabControl Background="#1E1830" BorderThickness="0">
+            <!-- ───────── Подключение ───────── -->
+            <TabItem Header="Подключение">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="12">
+                        <TextBlock Text="DonationAlerts OAuth" FontSize="16" FontWeight="Bold" Margin="0,0,0,8"/>
+                        <CheckBox x:Name="DaEnabledCheck" Content="Слушать DonationAlerts"
+                                  Foreground="#EEE" Margin="0,0,0,8"/>
+                        <TextBlock TextWrapping="Wrap" Foreground="#AAA" Margin="0,0,0,12"
+                                   Text="Приложение слушает донаты напрямую на этом ПК. Откройте donationalerts.com/application/clients → «Создать новое приложение». В поле «URL перенаправления» вставьте адрес снизу, затем впишите сюда «ID приложения» и «Ключ API» из DA и нажмите «Авторизоваться через браузер»."/>
+
+                        <TextBlock Text="Client ID (в DA — «ID приложения»)"/>
+                        <TextBox x:Name="ClientIdBox"/>
+                        <TextBlock Text="Client Secret (в DA — «Ключ API»)"/>
+                        <PasswordBox x:Name="ClientSecretBox" Padding="4" Margin="0,2"/>
+
+                        <Border Background="#2A2042" CornerRadius="6" Padding="8" Margin="0,8">
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" Foreground="#CCC">
+                                    URL перенаправления (вставьте в одноимённое поле приложения DA):
+                                </TextBlock>
+                                <TextBox x:Name="RedirectUriBox" IsReadOnly="True" Background="#15101F"
+                                         Foreground="#9CF" BorderThickness="0" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="AuthButton" Content="Авторизоваться через браузер" Click="OnAuthorizeClick"/>
+                        </StackPanel>
+
+                        <Separator Margin="0,12" Background="#3A2F55"/>
+
+                        <Expander Header="Токены DA (заполняются автоматически после авторизации)"
+                                  Foreground="#EEE" IsExpanded="False">
+                            <StackPanel Margin="0,6,0,0">
+                                <TextBlock Text="Access token"/>
+                                <PasswordBox x:Name="AccessTokenBox" Padding="4" Margin="0,2"/>
+                                <TextBlock Text="Refresh token (необязательно)"/>
+                                <PasswordBox x:Name="RefreshTokenBox" Padding="4" Margin="0,2"/>
+                            </StackPanel>
+                        </Expander>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button x:Name="CheckButton" Content="Проверить подключение" Click="OnCheckClick"/>
+                            <TextBlock x:Name="CheckResult" Foreground="#9F9" Margin="8,0,0,0"/>
+                        </StackPanel>
+
+                        <Separator Margin="0,12" Background="#3A2F55"/>
+
+                        <TextBlock Text="DonateX" FontSize="16" FontWeight="Bold" Margin="0,0,0,4"/>
+                        <CheckBox x:Name="DonateXEnabledCheck" Content="Слушать DonateX"
+                                  Foreground="#EEE" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" Foreground="#AAA" Margin="0,0,0,6"
+                                   Text="Вставьте External token из кабинета DonateX (Настройки → «API и Доступ»). Токен бессрочный, OAuth не нужен."/>
+                        <TextBlock Text="DonateX token"/>
+                        <PasswordBox x:Name="DonateXTokenBox" Padding="4" Margin="0,2"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <Button x:Name="CheckDonateXButton" Content="Проверить DonateX" Click="OnCheckDonateXClick"/>
+                            <TextBlock x:Name="DonateXResult" Foreground="#9F9" Margin="8,0,0,0"/>
+                        </StackPanel>
+
+                        <Separator Margin="0,12" Background="#3A2F55"/>
+
+                        <CheckBox x:Name="AutoStartCheck" Content="Запускать слушатель при старте приложения"
+                                  Foreground="#EEE" Margin="0,4"/>
+                        <CheckBox x:Name="ShowOverlayCheck" Content="Показывать подписи донатов на экране (оверлей)"
+                                  Foreground="#EEE" Margin="0,4"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Аварийная клавиша (снять все эффекты):" Margin="0,0,8,0"/>
+                            <TextBox x:Name="HotkeyBox" Width="160"/>
+                        </StackPanel>
+
+                        <Separator Margin="0,12" Background="#3A2F55"/>
+
+                        <TextBlock Text="Монитор для эффектов" FontSize="16" FontWeight="Bold" Margin="0,0,0,4"/>
+                        <TextBlock TextWrapping="Wrap" Foreground="#AAA" Margin="0,0,0,6"
+                                   Text="Выберите, на каком мониторе показывать эффекты (по умолчанию — основной). Кнопка «Определить» ненадолго покажет номера на экранах."/>
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <ComboBox x:Name="MonitorCombo" Width="320" Height="28"
+                                      Background="White" Foreground="Black"
+                                      SelectionChanged="OnMonitorChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding DisplayName}" Foreground="Black"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <Button Content="Определить мониторы" Click="OnIdentifyMonitorsClick"
+                                    Background="#3A2F55" Margin="8,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- ───────── Действия и цены ───────── -->
+            <TabItem Header="Действия и цены">
+                <DockPanel Margin="8">
+                    <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Foreground="#AAA" Margin="4,0,4,8"
+                               Text="Зритель запускает эффект донатом на указанную цену. Меняйте цену, длительность и включайте/выключайте действия — изменения применяются сразу. Кнопка «Тест» проигрывает эффект локально."/>
+                    <DataGrid x:Name="ActionsGrid" AutoGenerateColumns="False" CanUserAddRows="False"
+                              HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                              Background="#1E1830" Foreground="#EEE" RowBackground="#241C3A"
+                              AlternatingRowBackground="#2A2042" BorderBrush="#3A2F55"
+                              IsReadOnly="False" SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Вкл" Binding="{Binding Enabled, UpdateSourceTrigger=PropertyChanged}" Width="44"/>
+                            <DataGridTextColumn Header="Действие" Binding="{Binding DisplayName}" IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="Категория" Binding="{Binding CategoryName}" IsReadOnly="True" Width="160"/>
+                            <DataGridTextColumn Header="Цена, ₽" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="80"/>
+                            <DataGridTextColumn Header="Длит., сек" Binding="{Binding DurationSeconds, UpdateSourceTrigger=PropertyChanged}" Width="90"/>
+                            <DataGridTemplateColumn Header="Тест" Width="80">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="▶ Тест" Click="OnTestActionClick" Padding="6,3" Margin="2"
+                                                Background="#6A3CE0" Foreground="White" FontWeight="SemiBold"
+                                                BorderThickness="0" Cursor="Hand"
+                                                ToolTip="Проиграть эффект локально"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </TabItem>
+
+            <!-- ───────── Тест ───────── -->
+            <TabItem Header="Тестовый донат">
+                <StackPanel Margin="16" MaxWidth="460" HorizontalAlignment="Left">
+                    <TextBlock Text="Эмуляция доната" FontSize="16" FontWeight="Bold" Margin="0,0,0,8"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#AAA" Margin="0,0,0,12"
+                               Text="Отправьте тестовый донат — он пройдёт через ту же логику подбора действия по цене, что и реальный донат."/>
+
+                    <TextBlock Text="Ник зрителя"/>
+                    <TextBox x:Name="TestUserBox" Text="Тестер"/>
+                    <TextBlock Text="Сумма, ₽"/>
+                    <TextBox x:Name="TestAmountBox" Text="100"/>
+                    <TextBlock Text="Сообщение (для текстовых эффектов)"/>
+                    <TextBox x:Name="TestMessageBox" Text="Привет со стрима!"/>
+
+                    <Button x:Name="TestDonationButton" Content="Отправить тестовый донат"
+                            Click="OnTestDonationClick" HorizontalAlignment="Left" Margin="0,12,0,0"/>
+                    <TextBlock x:Name="TestResult" Foreground="#9F9" Margin="0,8,0,0" TextWrapping="Wrap"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

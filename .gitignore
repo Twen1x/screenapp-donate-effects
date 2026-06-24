@@ -1,0 +1,18 @@
+# Сборка .NET
+bin/
+obj/
+*.user
+
+# Локальные настройки приложения (содержат токены DA) — НЕ коммитить
+settings.json
+**/settings.json
+
+# Артефакты публикации
+publish/
+dist/
+*.zip
+
+# IDE
+.vs/
+.idea/
+*.suo

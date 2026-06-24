@@ -1,0 +1,98 @@
+<Window x:Class="ScreenApp.UI.DiagnosticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:ScreenApp.UI"
+        Title="ScreenApp — диагностика и помощь" Height="700" Width="820"
+        WindowStartupLocation="CenterScreen"
+        Background="#1E1830" Foreground="#EEE"
+        FontFamily="Segoe UI" FontSize="13">
+
+    <Window.Resources>
+        <ui:BoolToBrushConverter x:Key="BoolToBrush"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#EEE"/>
+        </Style>
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="#2A2042"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="2,8,0,8"/>
+        </Style>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="16">
+        <StackPanel>
+
+            <!-- ───── Проверка соединения ───── -->
+            <TextBlock Text="Проверка соединения" Style="{StaticResource SectionTitle}"/>
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button x:Name="RunCheckButton" Content="Проверить соединение"
+                                Click="OnRunCheckClick" Padding="12,6" Background="#6A3CE0"
+                                Foreground="White" BorderThickness="0" Cursor="Hand"/>
+                        <TextBlock x:Name="CheckHint" VerticalAlignment="Center" Margin="12,0,0,0"
+                                   Foreground="#AAA" Text="Нажмите, чтобы проверить доступность серверов DonationAlerts."/>
+                    </StackPanel>
+
+                    <ItemsControl x:Name="ChecksList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Width="12" Height="12" VerticalAlignment="Top" Margin="0,4,10,0"
+                                             Fill="{Binding Ok, Converter={StaticResource BoolToBrush}}"/>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Detail}" Foreground="#BBB" TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+
+            <!-- ───── Журнал событий ───── -->
+            <TextBlock Text="Журнал событий" Style="{StaticResource SectionTitle}"/>
+            <Border Style="{StaticResource Card}">
+                <ListBox x:Name="LogList" Height="150" Background="#15101F" Foreground="#CFC"
+                         BorderThickness="0" FontFamily="Consolas" FontSize="12"/>
+            </Border>
+
+            <!-- ───── Возможные ошибки и решения ───── -->
+            <TextBlock Text="Возможные ошибки и решения" Style="{StaticResource SectionTitle}"/>
+            <ItemsControl x:Name="IssuesList">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander Margin="0,0,0,6" Foreground="#EEE">
+                            <Expander.Header>
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" TextWrapping="Wrap"
+                                           Foreground="#E7DFFF" Width="700"/>
+                            </Expander.Header>
+                            <Border Background="#241C3A" CornerRadius="6" Padding="12" Margin="0,6,0,0">
+                                <StackPanel>
+                                    <TextBlock Text="Симптом" FontWeight="Bold" Foreground="#9CF"/>
+                                    <TextBlock Text="{Binding Symptom}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Причина" FontWeight="Bold" Foreground="#FC9"/>
+                                    <TextBlock Text="{Binding Cause}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Решение" FontWeight="Bold" Foreground="#9F9"/>
+                                    <TextBlock Text="{Binding Solution}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

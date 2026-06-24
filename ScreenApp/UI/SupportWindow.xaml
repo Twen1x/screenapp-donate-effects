@@ -1,0 +1,56 @@
+<Window x:Class="ScreenApp.UI.SupportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Поддержать ScreenApp" Height="560" Width="460"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="#1E1830" Foreground="#EEE"
+        FontFamily="Segoe UI" FontSize="13">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#EEE"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,7"/>
+            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="Background" Value="#6A3CE0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            <TextBlock Text="Поддержать проект 💜" FontSize="20" FontWeight="Bold" Margin="0,0,0,6"/>
+            <TextBlock TextWrapping="Wrap" Foreground="#BBB" Margin="0,0,0,14"
+                       Text="ScreenApp — бесплатное приложение с открытым исходным кодом. Если оно тебе полезно, можно поддержать автора — это по желанию и помогает развитию."/>
+
+            <Button x:Name="DonateButton" Content="Поддержать на DonateX" Click="OnDonateClick"/>
+            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                <TextBox x:Name="DonateLinkBox" IsReadOnly="True" Background="#15101F" Foreground="#9CF"
+                         BorderThickness="0" Padding="6" Width="300" VerticalContentAlignment="Center"/>
+                <Button Content="Копировать" Click="OnCopyLinkClick" Background="#3A2F55"/>
+            </StackPanel>
+
+            <Separator Margin="0,16" Background="#3A2F55"/>
+
+            <TextBlock Text="Криптовалюта — USDT (сеть TRC20)" FontWeight="Bold" Margin="0,0,0,6"/>
+            <Border Background="White" CornerRadius="8" Padding="10" HorizontalAlignment="Center"
+                    Margin="0,0,0,10">
+                <Image x:Name="QrImage" Width="220" Height="220" Stretch="Uniform"/>
+            </Border>
+
+            <TextBlock Text="Адрес кошелька:" Foreground="#BBB"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="CryptoBox" IsReadOnly="True" Background="#15101F" Foreground="#9F9"
+                         BorderThickness="0" Padding="6" Width="300" VerticalContentAlignment="Center"
+                         FontFamily="Consolas"/>
+                <Button Content="Копировать" Click="OnCopyCryptoClick" Background="#3A2F55"/>
+            </StackPanel>
+            <TextBlock Text="Отправляйте только USDT в сети TRC20. Memo не требуется."
+                       Foreground="#AAA" TextWrapping="Wrap" Margin="0,6,0,0"/>
+        </StackPanel>
+    </ScrollViewer>
+</Window>

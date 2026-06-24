@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+  <assemblyIdentity version="1.0.0.0" name="ScreenApp.app" />
+
+  <!--
+    Уровень прав. Для глобальных хуков ввода (WH_MOUSE_LL/WH_KEYBOARD_LL),
+    смены ориентации дисплея (ChangeDisplaySettingsEx) и зеркала требуется запуск
+    от администратора (R4.6, R6.7). Поэтому requireAdministrator: при запуске
+    Windows показывает запрос UAC и приложение получает повышенные права.
+  -->
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+
+  <!-- Поддержка DPI и совместимости с Windows 10/11 -->
+  <compatibility xmlns="urn:schemas-microsoft-com:asm.v1">
+    <application>
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" /> <!-- Windows 10/11 -->
+    </application>
+  </compatibility>
+</assembly>

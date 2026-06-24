@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ScreenApp</RootNamespace>
+    <AssemblyName>ScreenApp</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+    <Version>2.0.0</Version>
+    <Product>ScreenApp</Product>
+    <Description>Эффекты на экране стримера за донаты DonationAlerts</Description>
+  </PropertyGroup>
+
+  <!--
+    Параметры публикации в один .exe (задача 16).
+    Активируются только при publish (по флагу _IsPublishing или при использовании
+    публиш-профиля PublishProtocol). На обычные build и test не влияют:
+    RID не навязывается всему решению.
+
+    Команда сборки одного самодостаточного файла (не требует .NET на ПК стримера):
+      dotnet publish ScreenApp/ScreenApp.csproj -c Release -r win-x64 /p:SelfContained=true
+
+    Готовый файл:
+      ScreenApp/bin/Release/net8.0-windows/win-x64/publish/ScreenApp.exe
+
+    Либо через публиш-профиль (Properties/PublishProfiles/win-x64.pubxml):
+      dotnet publish ScreenApp/ScreenApp.csproj /p:PublishProfile=win-x64
+  -->
+  <PropertyGroup Condition="'$(_IsPublishing)' == 'true' Or '$(PublishProtocol)' != ''">
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Иконка приложения: окно, трей и .exe. -->
+    <Resource Include="Resources\app.ico" />
+    <!-- QR-код кошелька для окна «Поддержать» (встроен в .exe). -->
+    <Resource Include="Resources\support-qr.png" />
+  </ItemGroup>
+
+</Project>

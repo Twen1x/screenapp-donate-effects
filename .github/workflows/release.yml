@@ -30,7 +30,7 @@ jobs:
         run: dotnet test ScreenApp.sln -c Release --no-restore --nologo
 
       - name: Publish single-file exe
-        run: dotnet publish ScreenApp/ScreenApp.csproj /p:PublishProfile=win-x64 --no-restore
+        run: dotnet publish ScreenApp/ScreenApp.csproj /p:PublishProfile=win-x64
 
       - name: Stage artifact
         shell: pwsh
